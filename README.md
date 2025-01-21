@@ -24,6 +24,8 @@ With the data cleaned, I performed more complex analyses, such as calculating gl
 ![Global](Global.png)
 ![CTE](CTE.png)
 
+## Dashboard Development
+
 For data visualization, I used Tableau to present the insights gained during the analysis. This project provided an excellent opportunity to enhance my Tableau skills. Some of the insights include death rates across continents, vaccination rates by country, and relationships between vaccination rates and death rates.
 
 ![Tableau](Tableau.png)
