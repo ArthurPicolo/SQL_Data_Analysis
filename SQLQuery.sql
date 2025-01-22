@@ -1,11 +1,14 @@
 /*
-Covid 19 date Exploration 
+Covid 19 data Exploration 
 
 Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting date Types
 
 */
 
 SELECT * FROM PortfolioProject..CovidDeaths
+ORDER BY 3,4
+
+SELECT * FROM PortfolioProject..CovidVaccinations
 ORDER BY 3,4
 
 
@@ -60,12 +63,11 @@ ORDER BY TotalDeathCount DESC
 
 -- Showing contintents with the highest death count per population
 
-SELECT continent, MAX(cast(Total_deaths AS int)) AS TotalDeathCount
+SELECT continent, SUM(cast(new_deaths AS BIGINT)) AS TotalDeathCount
 FROM PortfolioProject..CovidDeaths
-WHERE continent IS NOT NULL 
+WHERE continent != ''
 GROUP BY continent
 ORDER BY TotalDeathCount DESC
-
 
 
 -- GLOBAL NUMBERS
@@ -139,9 +141,7 @@ SELECT *, (RollingPeopleVaccinated/Population)*100
 FROM #PercentPopulationVaccinated
 
 
-
-
--- Creating View to store date for later vISualizations
+-- Creating View to store date for later visualizations
 
 Create View PercentPopulationVaccinated as
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
@@ -149,7 +149,19 @@ SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinatio
 --, (RollingPeopleVaccinated/population)*100
 FROM PortfolioProject..CovidDeaths dea
 JOIN PortfolioProject..CovidVaccinations vac
-	On dea.location = vac.location
+	ON dea.location = vac.location
 	AND dea.date = vac.date
 WHERE dea.continent IS NOT NULL 
 
+-- Checking Correlation Between Total Deaths and Vaccination Rate
+
+SELECT dea.continent,
+    SUM(CAST(ISNULL(dea.new_deaths, 0) AS BIGINT)) AS TotalDeathCount,
+    SUM(CAST(ISNULL(vac.new_vaccinations, 0) AS BIGINT)) * 1.0 / SUM(CAST(ISNULL(dea.population, 0) AS BIGINT)) AS VaccinationRate
+FROM PortfolioProject..CovidDeaths dea
+JOIN PortfolioProject..CovidVaccinations vac
+	ON dea.location = vac.location
+    AND dea.date = vac.date
+WHERE dea.continent != ''
+GROUP BY dea.continent
+ORDER BY 3
