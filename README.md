@@ -35,5 +35,5 @@ The complete visualization can be accessed here: [Covid Dashboard](https://publi
 ## Conclusion
 Europe and North America had the highest death rates compared to other continents. Surprisingly, there was no clear correlation between vaccination rates and death rates per continent. Additionally, the global death percentage was less than 1%, indicating that 99% of those infected survived. 
 
-![Vac](Vac.png)
-![Vac Return](Vac_return.png)
+![Vac](Vac_query.png)
+![Vac Return](Vac_result.png)
